@@ -14,6 +14,8 @@ export class AppComponent {
   readonly bombsNumber = 99;
   arrayForRandomNumbers = new Uint32Array(1);
   userDied: boolean = false;
+  victory: boolean = false;
+  revealedCount: number = 0;
 
   constructor() {
     this.initializeGame();
@@ -21,6 +23,8 @@ export class AppComponent {
 
   initializeGame() {
     this.userDied = false;
+    this.victory = false;
+    this.revealedCount = 0;
     this.rows = [];
 
     for (let i = 0; i < this.rowCount; i++) {
@@ -128,7 +132,7 @@ export class AppComponent {
   }
 
   cellClicked(cell: Cell) {
-    if (this.userDied) {
+    if (this.userDied || this.victory) {
       return;
     }
 
@@ -140,7 +144,17 @@ export class AppComponent {
         this.revealEmptyCells(cell.rowIndex, cell.colIndex);
       } else {
         cell.revealed = true;
+        this.updateRevealCount();
       }
+    }
+  }
+
+  updateRevealCount() {
+    this.revealedCount++;
+
+    if (this.rowCount * this.columnCount - this.bombsNumber === this.revealedCount) {
+      this.victory = true;
+      alert('Victory');
     }
   }
 
@@ -152,10 +166,12 @@ export class AppComponent {
       let currentCell = this.getCell(current.row, current.col);
       if (currentCell.adjacentBombs === 0 && !currentCell.revealed) {
         currentCell.revealed = true;
+        this.updateRevealCount();
         if (current.row - 1 >= 0) {
           if (current.col - 1 >= 0) {
             if (this.getCell(current.row - 1, current.col - 1).adjacentBombs !== 0) {
               this.getCell(current.row - 1, current.col - 1).revealed = true;
+              this.updateRevealCount();
             }
           }
 
@@ -163,11 +179,13 @@ export class AppComponent {
             stack.push({ row: current.row - 1, col: current.col });
           } else {
             this.getCell(current.row - 1, current.col).revealed = true;
+            this.updateRevealCount();
           }
 
           if (current.col + 1 < this.columnCount) {
             if (this.getCell(current.row - 1, current.col + 1).adjacentBombs !== 0) {
               this.getCell(current.row - 1, current.col + 1).revealed = true;
+              this.updateRevealCount();
             }
           }
         }
@@ -177,6 +195,7 @@ export class AppComponent {
             stack.push({ row: current.row, col: current.col - 1 });
           } else {
             this.getCell(current.row, current.col - 1).revealed = true;
+            this.updateRevealCount();
           }
         }
 
@@ -185,6 +204,7 @@ export class AppComponent {
             stack.push({ row: current.row, col: current.col + 1 });
           } else {
             this.getCell(current.row, current.col + 1).revealed = true;
+            this.updateRevealCount();
           }
         }
 
@@ -192,6 +212,7 @@ export class AppComponent {
           if (current.col - 1 >= 0) {
             if (this.getCell(current.row + 1, current.col - 1).adjacentBombs !== 0) {
               this.getCell(current.row + 1, current.col - 1).revealed = true;
+              this.updateRevealCount();
             }
           }
 
@@ -199,11 +220,13 @@ export class AppComponent {
             stack.push({ row: current.row + 1, col: current.col });
           } else {
             this.getCell(current.row + 1, current.col).revealed = true;
+            this.updateRevealCount();
           }
 
           if (current.col + 1 < this.columnCount) {
             if (this.getCell(current.row + 1, current.col + 1).adjacentBombs !== 0) {
               this.getCell(current.row + 1, current.col + 1).revealed = true;
+              this.updateRevealCount();
             }
           }
         }
