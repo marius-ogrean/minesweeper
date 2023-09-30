@@ -145,18 +145,20 @@ export class AppComponent {
         currentCell.revealed = true;
         if (current.row - 1 >= 0) {
           if (current.col - 1 >= 0) {
-            if (this.getCell(current.row - 1, current.col - 1).adjacentBombs === 0) {
-              stack.push({ row: current.row - 1, col: current.col - 1 });
+            if (this.getCell(current.row - 1, current.col - 1).adjacentBombs !== 0) {
+              this.getCell(current.row - 1, current.col - 1).revealed = true;
             }
           }
 
           if (this.getCell(current.row - 1, current.col).adjacentBombs === 0) {
             stack.push({ row: current.row - 1, col: current.col });
+          } else {
+            this.getCell(current.row - 1, current.col).revealed = true;
           }
 
           if (current.col + 1 < this.columnCount) {
-            if (this.getCell(current.row - 1, current.col + 1).adjacentBombs === 0) {
-              stack.push({ row: current.row - 1, col: current.col + 1 });
+            if (this.getCell(current.row - 1, current.col + 1).adjacentBombs !== 0) {
+              this.getCell(current.row - 1, current.col + 1).revealed = true;
             }
           }
         }
@@ -164,29 +166,35 @@ export class AppComponent {
         if (current.col - 1 >= 0) {
           if (this.getCell(current.row, current.col - 1).adjacentBombs === 0) {
             stack.push({ row: current.row, col: current.col - 1 });
+          } else {
+            this.getCell(current.row, current.col - 1).revealed = true;
           }
         }
 
         if (current.col + 1 < this.columnCount) {
           if (this.getCell(current.row, current.col + 1).adjacentBombs === 0) {
             stack.push({ row: current.row, col: current.col + 1 });
+          } else {
+            this.getCell(current.row, current.col + 1).revealed = true;
           }
         }
 
         if (current.row + 1 < this.rowCount) {
           if (current.col - 1 >= 0) {
-            if (this.getCell(current.row + 1, current.col - 1).adjacentBombs === 0) {
-              stack.push({ row: current.row + 1, col: current.col - 1 });
+            if (this.getCell(current.row + 1, current.col - 1).adjacentBombs !== 0) {
+              this.getCell(current.row + 1, current.col - 1).revealed = true;
             }
           }
 
           if (this.getCell(current.row + 1, current.col).adjacentBombs === 0) {
             stack.push({ row: current.row + 1, col: current.col });
+          } else {
+            this.getCell(current.row + 1, current.col).revealed = true;
           }
 
           if (current.col + 1 < this.columnCount) {
-            if (this.getCell(current.row + 1, current.col + 1).adjacentBombs === 0) {
-              stack.push({ row: current.row + 1, col: current.col + 1 });
+            if (this.getCell(current.row + 1, current.col + 1).adjacentBombs !== 0) {
+              this.getCell(current.row + 1, current.col + 1).revealed = true;
             }
           }
         }
