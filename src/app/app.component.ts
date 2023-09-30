@@ -21,7 +21,7 @@ export class AppComponent {
     this.rows = [];
 
     for (let i = 0; i < this.rowCount; i++) {
-      this.rows.push(new Row(this.columnCount));
+      this.rows.push(new Row(i, this.columnCount));
     }
 
     this.addBombs();
@@ -118,5 +118,11 @@ export class AppComponent {
 
   restart() {
     this.initializeGame();
+  }
+
+  cellClicked(cell: Cell) {
+    if (cell.hasBomb) {
+      alert('you\'re dead');
+    }
   }
 }
