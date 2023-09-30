@@ -8,4 +8,8 @@ import { Cell } from '../cell';
 })
 export class CellComponent {
   @Input() cell: Cell;
+
+  clicked() {
+    this.cell.revealed = true;
+  }
 }

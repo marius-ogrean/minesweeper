@@ -1,3 +1,3 @@
-<div class="cell d-flex justify-content-center align-items-center">
-
+<div class="cell d-flex justify-content-center align-items-center" (click)="clicked()"
+    [ngClass]="{ 'not-revealed': !cell.revealed, 'revealed': cell.revealed }">
 </div>

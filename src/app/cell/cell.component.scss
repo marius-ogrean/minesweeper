@@ -1,9 +1,16 @@
 .cell {
   width: 30px;
   height: 30px;
-  background: #7ED6FF;
-  border: 2px solid #262939;
-  border-radius: 2px;
+  border: 1px solid #262939;
   cursor: default;
+}
+
+.not-revealed {
+  background: #7ED6FF;
   box-shadow: inset 0 0 3px 3px #63AFFF;
+}
+
+.revealed {
+  background: #FFFFFF;
+  box-shadow: inset 0 0 3px 3px #D8D9D9;
 }
