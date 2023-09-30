@@ -131,7 +131,7 @@ export class AppComponent {
   }
 
   cellClicked(cell: Cell) {
-    if (this.userDied) {
+    if (this.userDied || this.victory) {
       return;
     }
 
@@ -140,6 +140,7 @@ export class AppComponent {
       this.userDied = true;
     } else {
       if (cell.adjacentBombs === 0) {
+        cell.addedForReveal = true;
         this.revealEmptyCells(cell);
       } else {
         cell.revealed = true;
