@@ -125,9 +125,8 @@ export class AppComponent {
   }
 
   cellClicked(cell: Cell) {
-    cell.revealed = true;
-
     if (cell.hasBomb) {
+      cell.revealed = true;
       alert('you\'re dead');
     } else {
       if (cell.adjacentBombs === 0) {
@@ -168,7 +167,7 @@ export class AppComponent {
           }
         }
 
-        if (current.col + 1 >= 0) {
+        if (current.col + 1 < this.columnCount) {
           if (this.getCell(current.row, current.col + 1).adjacentBombs === 0) {
             stack.push({ row: current.row, col: current.col + 1 });
           }
