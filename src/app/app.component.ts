@@ -131,6 +131,8 @@ export class AppComponent {
     } else {
       if (cell.adjacentBombs === 0) {
         this.revealEmptyCells(cell.rowIndex, cell.colIndex);
+      } else {
+        cell.revealed = true;
       }
     }
   }
