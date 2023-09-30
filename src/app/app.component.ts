@@ -11,6 +11,7 @@ export class AppComponent {
   rows: Array<Row>;
   readonly rowCount = 16;
   readonly columnCount = 30;
+  readonly bombsNumber = 99;
   arrayForRandomNumbers = new Uint32Array(1);
 
   constructor() {
@@ -29,7 +30,7 @@ export class AppComponent {
   }
 
   addBombs() {
-    let bombsToAdd = 99;
+    let bombsToAdd = this.bombsNumber;
 
     while (bombsToAdd > 0) {
       const randomRow = this.getRandomNumberSmallerThan(this.rowCount);
