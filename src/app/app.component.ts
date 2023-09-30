@@ -129,6 +129,69 @@ export class AppComponent {
 
     if (cell.hasBomb) {
       alert('you\'re dead');
+    } else {
+      if (cell.adjacentBombs === 0) {
+        this.revealEmptyCells(cell.rowIndex, cell.colIndex);
+      }
+    }
+  }
+
+  revealEmptyCells(rowIndex: number, colIndex: number) {
+    let stack = [{ row: rowIndex, col: colIndex}];
+
+    while (stack.length) {
+      let current: any = stack.pop();
+      let currentCell = this.getCell(current.row, current.col);
+      if (currentCell.adjacentBombs === 0 && !currentCell.revealed) {
+        currentCell.revealed = true;
+        if (current.row - 1 >= 0) {
+          if (current.col - 1 >= 0) {
+            if (this.getCell(current.row - 1, current.col - 1).adjacentBombs === 0) {
+              stack.push({ row: current.row - 1, col: current.col - 1 });
+            }
+          }
+
+          if (this.getCell(current.row - 1, current.col).adjacentBombs === 0) {
+            stack.push({ row: current.row - 1, col: current.col });
+          }
+
+          if (current.col + 1 < this.columnCount) {
+            if (this.getCell(current.row - 1, current.col + 1).adjacentBombs === 0) {
+              stack.push({ row: current.row - 1, col: current.col + 1 });
+            }
+          }
+        }
+
+        if (current.col - 1 >= 0) {
+          if (this.getCell(current.row, current.col - 1).adjacentBombs === 0) {
+            stack.push({ row: current.row, col: current.col - 1 });
+          }
+        }
+
+        if (current.col + 1 >= 0) {
+          if (this.getCell(current.row, current.col + 1).adjacentBombs === 0) {
+            stack.push({ row: current.row, col: current.col + 1 });
+          }
+        }
+
+        if (current.row + 1 < this.rowCount) {
+          if (current.col - 1 >= 0) {
+            if (this.getCell(current.row + 1, current.col - 1).adjacentBombs === 0) {
+              stack.push({ row: current.row + 1, col: current.col - 1 });
+            }
+          }
+
+          if (this.getCell(current.row + 1, current.col).adjacentBombs === 0) {
+            stack.push({ row: current.row + 1, col: current.col });
+          }
+
+          if (current.col + 1 < this.columnCount) {
+            if (this.getCell(current.row + 1, current.col + 1).adjacentBombs === 0) {
+              stack.push({ row: current.row + 1, col: current.col + 1 });
+            }
+          }
+        }
+      }
     }
   }
 }
