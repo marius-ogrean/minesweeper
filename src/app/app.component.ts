@@ -139,10 +139,10 @@ export class AppComponent {
       cell.revealed = true;
       this.userDied = true;
     } else {
-      if (cell.adjacentBombs === 0) {
+      if (cell.adjacentBombs === 0 && !cell.revealed) {
         cell.addedForReveal = true;
         this.revealEmptyCells(cell);
-      } else {
+      } else if (!cell.revealed) {
         cell.revealed = true;
         this.updateRevealCount();
       }
@@ -150,8 +150,6 @@ export class AppComponent {
   }
 
   updateRevealCount() {
-    console.log(Cell.revealCount);
-
     if (this.rowCount * this.columnCount - this.bombsNumber === Cell.revealCount) {
       this.victory = true;
       alert('Victory');
