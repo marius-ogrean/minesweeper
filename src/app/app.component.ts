@@ -15,16 +15,15 @@ export class AppComponent {
   arrayForRandomNumbers = new Uint32Array(1);
   userDied: boolean = false;
   victory: boolean = false;
-  revealedCount: number = 0;
 
   constructor() {
     this.initializeGame();
   }
 
   initializeGame() {
+    Cell.revealCount = 0;
     this.userDied = false;
     this.victory = false;
-    this.revealedCount = 0;
     this.rows = [];
 
     for (let i = 0; i < this.rowCount; i++) {
@@ -132,7 +131,7 @@ export class AppComponent {
   }
 
   cellClicked(cell: Cell) {
-    if (this.userDied || this.victory) {
+    if (this.userDied) {
       return;
     }
 
@@ -141,7 +140,7 @@ export class AppComponent {
       this.userDied = true;
     } else {
       if (cell.adjacentBombs === 0) {
-        this.revealEmptyCells(cell.rowIndex, cell.colIndex);
+        this.revealEmptyCells(cell);
       } else {
         cell.revealed = true;
         this.updateRevealCount();
@@ -150,103 +149,106 @@ export class AppComponent {
   }
 
   updateRevealCount() {
-    this.revealedCount++;
+    console.log(Cell.revealCount);
 
-    if (this.rowCount * this.columnCount - this.bombsNumber === this.revealedCount) {
+    if (this.rowCount * this.columnCount - this.bombsNumber === Cell.revealCount) {
       this.victory = true;
       alert('Victory');
     }
   }
 
-  revealEmptyCells(rowIndex: number, colIndex: number) {
-    let stack = [{ row: rowIndex, col: colIndex}];
+  revealEmptyCells(startCell: Cell) {
+    let stack: Array<Cell> = [startCell];
 
     while (stack.length) {
-      let current: any = stack.pop();
-      let currentCell = this.getCell(current.row, current.col);
-      if (currentCell.adjacentBombs === 0 && !currentCell.revealed) {
-        currentCell.revealed = true;
+      let current: Cell = stack.pop() as Cell;
+      if (current.adjacentBombs === 0 && !current.revealed) {
+        current.revealed = true;
         this.updateRevealCount();
-        if (current.row - 1 >= 0) {
-          if (current.col - 1 >= 0) {
-            if (this.getCell(current.row - 1, current.col - 1).adjacentBombs !== 0) {
-              if (!this.getCell(current.row - 1, current.col - 1).revealed) {
-                this.getCell(current.row - 1, current.col - 1).revealed = true;
+        if (current.rowIndex - 1 >= 0) {
+          if (current.colIndex - 1 >= 0) {
+            if (this.getCell(current.rowIndex - 1, current.colIndex - 1).adjacentBombs !== 0) {
+              if (!this.getCell(current.rowIndex - 1, current.colIndex - 1).revealed) {
+                this.getCell(current.rowIndex - 1, current.colIndex - 1).revealed = true;
                 this.updateRevealCount();
               }
             }
           }
 
-          if (this.getCell(current.row - 1, current.col).adjacentBombs === 0) {
-            if (!this.getCell(current.row - 1, current.col).revealed) {
-              stack.push({ row: current.row - 1, col: current.col });
+          if (this.getCell(current.rowIndex - 1, current.colIndex).adjacentBombs === 0) {
+            if (!this.getCell(current.rowIndex - 1, current.colIndex).addedForReveal) {
+              this.getCell(current.rowIndex - 1, current.colIndex).addedForReveal = true;
+              stack.push(this.getCell(current.rowIndex - 1, current.colIndex));
             }
           } else {
-            if (!this.getCell(current.row - 1, current.col).revealed) {
-              this.getCell(current.row - 1, current.col).revealed = true;
+            if (!this.getCell(current.rowIndex - 1, current.colIndex).revealed) {
+              this.getCell(current.rowIndex - 1, current.colIndex).revealed = true;
               this.updateRevealCount();
             }
           }
 
-          if (current.col + 1 < this.columnCount) {
-            if (this.getCell(current.row - 1, current.col + 1).adjacentBombs !== 0) {
-              this.getCell(current.row - 1, current.col + 1).revealed = true;
+          if (current.colIndex + 1 < this.columnCount) {
+            if (this.getCell(current.rowIndex - 1, current.colIndex + 1).adjacentBombs !== 0) {
+              this.getCell(current.rowIndex - 1, current.colIndex + 1).revealed = true;
               this.updateRevealCount();
             }
           }
         }
 
-        if (current.col - 1 >= 0) {
-          if (this.getCell(current.row, current.col - 1).adjacentBombs === 0) {
-            if (!this.getCell(current.row, current.col - 1).revealed) {
-              stack.push({ row: current.row, col: current.col - 1 });
+        if (current.colIndex - 1 >= 0) {
+          if (this.getCell(current.rowIndex, current.colIndex - 1).adjacentBombs === 0) {
+            if (!this.getCell(current.rowIndex, current.colIndex - 1).addedForReveal) {
+              this.getCell(current.rowIndex, current.colIndex - 1).addedForReveal = true;
+              stack.push(this.getCell(current.rowIndex, current.colIndex - 1));
             }
           } else {
-            if (!this.getCell(current.row, current.col - 1).revealed) {
-              this.getCell(current.row, current.col - 1).revealed = true;
+            if (!this.getCell(current.rowIndex, current.colIndex - 1).revealed) {
+              this.getCell(current.rowIndex, current.colIndex - 1).revealed = true;
               this.updateRevealCount();
             }
           }
         }
 
-        if (current.col + 1 < this.columnCount) {
-          if (this.getCell(current.row, current.col + 1).adjacentBombs === 0) {
-            if (!this.getCell(current.row, current.col + 1).revealed) {
-              stack.push({ row: current.row, col: current.col + 1 });
+        if (current.colIndex + 1 < this.columnCount) {
+          if (this.getCell(current.rowIndex, current.colIndex + 1).adjacentBombs === 0) {
+            if (!this.getCell(current.rowIndex, current.colIndex + 1).addedForReveal) {
+              this.getCell(current.rowIndex, current.colIndex + 1).addedForReveal = true;
+              stack.push(this.getCell(current.rowIndex, current.colIndex + 1));
             }
           } else {
-            if (!this.getCell(current.row, current.col + 1).revealed) {
-              this.getCell(current.row, current.col + 1).revealed = true;
+            if (!this.getCell(current.rowIndex, current.colIndex + 1).revealed) {
+              this.getCell(current.rowIndex, current.colIndex + 1).revealed = true;
               this.updateRevealCount();
             }
           }
         }
 
-        if (current.row + 1 < this.rowCount) {
-          if (current.col - 1 >= 0) {
-            if (this.getCell(current.row + 1, current.col - 1).adjacentBombs !== 0) {
-              if (!this.getCell(current.row + 1, current.col - 1).revealed) {
-                this.getCell(current.row + 1, current.col - 1).revealed = true;
+        if (current.rowIndex + 1 < this.rowCount) {
+          if (current.colIndex - 1 >= 0) {
+            if (this.getCell(current.rowIndex + 1, current.colIndex - 1).adjacentBombs !== 0) {
+              if (!this.getCell(current.rowIndex + 1, current.colIndex - 1).revealed) {
+                this.getCell(current.rowIndex + 1, current.colIndex - 1).revealed = true;
                 this.updateRevealCount();
               }
             }
           }
 
-          if (this.getCell(current.row + 1, current.col).adjacentBombs === 0) {
-            if (!this.getCell(current.row + 1, current.col).revealed) {
-              stack.push({ row: current.row + 1, col: current.col });
+          if (this.getCell(current.rowIndex + 1, current.colIndex).adjacentBombs === 0) {
+            if (!this.getCell(current.rowIndex + 1, current.colIndex).addedForReveal) {
+              this.getCell(current.rowIndex + 1, current.colIndex).addedForReveal = true;
+              stack.push(this.getCell(current.rowIndex + 1, current.colIndex));
             }
           } else {
-            if (!this.getCell(current.row + 1, current.col).revealed) {
-              this.getCell(current.row + 1, current.col).revealed = true;
+            if (!this.getCell(current.rowIndex + 1, current.colIndex).revealed) {
+              this.getCell(current.rowIndex + 1, current.colIndex).revealed = true;
               this.updateRevealCount();
             }
           }
 
-          if (current.col + 1 < this.columnCount) {
-            if (this.getCell(current.row + 1, current.col + 1).adjacentBombs !== 0) {
-              if (!this.getCell(current.row + 1, current.col + 1).revealed) {
-                this.getCell(current.row + 1, current.col + 1).revealed = true;
+          if (current.colIndex + 1 < this.columnCount) {
+            if (this.getCell(current.rowIndex + 1, current.colIndex + 1).adjacentBombs !== 0) {
+              if (!this.getCell(current.rowIndex + 1, current.colIndex + 1).revealed) {
+                this.getCell(current.rowIndex + 1, current.colIndex + 1).revealed = true;
                 this.updateRevealCount();
               }
             }
