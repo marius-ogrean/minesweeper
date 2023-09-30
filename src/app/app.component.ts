@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Row } from './row';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Minesweeper';
+  rows: Array<Row> = [];
+
+  constructor() {
+    for (let i = 0; i < 16; i++) {
+      this.rows.push(new Row(30));
+    }
+  }
 }
