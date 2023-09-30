@@ -13,12 +13,14 @@ export class AppComponent {
   readonly columnCount = 30;
   readonly bombsNumber = 99;
   arrayForRandomNumbers = new Uint32Array(1);
+  userDied: boolean = false;
 
   constructor() {
     this.initializeGame();
   }
 
   initializeGame() {
+    this.userDied = false;
     this.rows = [];
 
     for (let i = 0; i < this.rowCount; i++) {
@@ -126,8 +128,13 @@ export class AppComponent {
   }
 
   cellClicked(cell: Cell) {
+    if (this.userDied) {
+      return;
+    }
+
     if (cell.hasBomb) {
       cell.revealed = true;
+      this.userDied = true;
       alert('you\'re dead');
     } else {
       if (cell.adjacentBombs === 0) {
