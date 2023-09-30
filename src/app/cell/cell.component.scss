@@ -1,5 +1,9 @@
 .cell {
   width: 30px;
   height: 30px;
-  padding: auto;
+  background: #7ED6FF;
+  border: 2px outset black;
+  border-radius: 2px;
+  cursor: default;
+  box-shadow: inset 0 0 3px 3px #63AFFF;
 }
