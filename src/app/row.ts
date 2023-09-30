@@ -8,7 +8,7 @@ export class Row {
     this.cellCount = cellCount;
 
     for (let i = 0; i < cellCount; i++) {
-      this.cells.push(new Cell(i));
+      this.cells.push(new Cell());
     }
   }
 }

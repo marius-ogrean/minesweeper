@@ -1,8 +1,7 @@
 export class Cell {
-  public value: number;
+  public hasBomb: boolean = false;
   public revealed: boolean = false;
 
-  constructor(value: number) {
-    this.value = value;
+  constructor() {
   }
 }
