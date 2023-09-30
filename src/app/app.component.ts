@@ -135,7 +135,6 @@ export class AppComponent {
     if (cell.hasBomb) {
       cell.revealed = true;
       this.userDied = true;
-      alert('you\'re dead');
     } else {
       if (cell.adjacentBombs === 0) {
         this.revealEmptyCells(cell.rowIndex, cell.colIndex);
