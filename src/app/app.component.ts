@@ -45,4 +45,8 @@ export class AppComponent {
     self.crypto.getRandomValues(this.arrayForRandomNumbers);
     return this.arrayForRandomNumbers[0] % limit;
   }
+
+  restart() {
+    this.initializeGame();
+  }
 }
