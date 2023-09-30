@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Row } from './row';
+import { Cell } from './cell';
 
 @Component({
   selector: 'app-root',
@@ -24,6 +25,7 @@ export class AppComponent {
     }
 
     this.addBombs();
+    this.calculateNumbers();
   }
 
   addBombs() {
@@ -39,6 +41,74 @@ export class AppComponent {
       this.rows[randomRow].cells[randomCol].hasBomb = true;
       bombsToAdd--;
     }
+  }
+
+  calculateNumbers() {
+    for (let i = 0; i < this.rowCount; i++) {
+      for (let j = 0; j < this.columnCount; j++) {
+        const bombCount = this.getAdjacentBombs(i, j);
+
+        this.getCell(i, j).adjacentBombs = bombCount;
+      }
+    }
+  }
+
+  getCell(row: number, column: number): Cell {
+    return this.rows[row].cells[column];
+  }
+
+  getAdjacentBombs(row: number, column: number) {
+    let bombCount = 0;
+
+    if (row - 1 >= 0) {
+      if (column - 1 >= 0) {
+        if (this.getCell(row - 1, column - 1).hasBomb) {
+          bombCount++;
+        }
+      }
+
+      if (this.getCell(row - 1, column).hasBomb) {
+        bombCount++;
+      }
+
+      if (column + 1 < this.columnCount) {
+        if (this.getCell(row - 1, column + 1).hasBomb) {
+          bombCount++;
+        }
+      }
+    }
+
+    if (column - 1 >= 0) {
+      if (this.getCell(row, column - 1).hasBomb) {
+        bombCount++;
+      }
+    }
+
+    if (column + 1 < this.columnCount) {
+      if (this.getCell(row, column + 1).hasBomb) {
+        bombCount++;
+      }
+    }
+
+    if (row + 1 < this.rowCount) {
+      if (column - 1 >= 0) {
+        if (this.getCell(row + 1, column - 1).hasBomb) {
+          bombCount++;
+        }
+      }
+
+      if (this.getCell(row + 1, column).hasBomb) {
+        bombCount++;
+      }
+
+      if (column + 1 < this.columnCount) {
+        if (this.getCell(row + 1, column + 1).hasBomb) {
+          bombCount++;
+        }
+      }
+    }
+
+    return bombCount;
   }
 
   getRandomNumberSmallerThan(limit: number) {
