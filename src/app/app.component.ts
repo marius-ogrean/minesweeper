@@ -125,6 +125,8 @@ export class AppComponent {
   }
 
   cellClicked(cell: Cell) {
+    cell.revealed = true;
+
     if (cell.hasBomb) {
       alert('you\'re dead');
     }

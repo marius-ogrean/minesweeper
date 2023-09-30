@@ -11,7 +11,6 @@ export class CellComponent {
   @Output() cellClicked = new EventEmitter<Cell>();
 
   clicked() {
-    this.cell.revealed = true;
     this.cellClicked.emit(this.cell);
   }
 }
