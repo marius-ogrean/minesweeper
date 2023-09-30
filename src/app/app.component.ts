@@ -60,6 +60,10 @@ export class AppComponent {
   getAdjacentBombs(row: number, column: number) {
     let bombCount = 0;
 
+    if (this.getCell(row, column).hasBomb) {
+      return bombCount;
+    }
+
     if (row - 1 >= 0) {
       if (column - 1 >= 0) {
         if (this.getCell(row - 1, column - 1).hasBomb) {
