@@ -1,3 +1,7 @@
-<div class="d-flex flex-row" *ngFor="let row of rows">
-  <app-cell *ngFor="let cell of row.cells" [cellObject]="cell"></app-cell>
+<div class="d-flex justify-content-center align-items-center container">
+  <div class="frame">
+    <div class="d-flex flex-row" *ngFor="let row of rows">
+      <app-cell *ngFor="let cell of row.cells" [cell]="cell"></app-cell>
+    </div>
+  </div>
 </div>

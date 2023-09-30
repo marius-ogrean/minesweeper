@@ -7,5 +7,5 @@ import { Cell } from '../cell';
   styleUrls: ['./cell.component.scss']
 })
 export class CellComponent {
-  @Input() cellObject: Cell;
+  @Input() cell: Cell;
 }
