@@ -17,6 +17,7 @@ export class AppComponent {
   victory: boolean = false;
   intervalHandle: any;
   timeSpent: number = 0;
+  firstClick: boolean = false;
 
   constructor(private ref: ChangeDetectorRef) {
     this.initializeGame();
@@ -28,6 +29,7 @@ export class AppComponent {
     this.victory = false;
     this.rows = [];
     this.timeSpent = 0;
+    this.firstClick = false;
 
     for (let i = 0; i < this.rowCount; i++) {
       this.rows.push(new Row(i, this.columnCount));
@@ -35,10 +37,6 @@ export class AppComponent {
 
     this.addBombs();
     this.calculateNumbers();
-    this.intervalHandle = setInterval(() => {
-      this.timeSpent++;
-      this.ref.markForCheck();
-    }, 1000);
   }
 
   formatTimeSpent() {
@@ -155,10 +153,19 @@ export class AppComponent {
   }
 
   restart() {
+    clearInterval(this.intervalHandle);
     this.initializeGame();
   }
 
   cellClicked(cell: Cell) {
+    if (!this.firstClick) {
+      this.firstClick = true;
+      this.intervalHandle = setInterval(() => {
+        this.timeSpent++;
+        this.ref.markForCheck();
+      }, 1000);
+    }
+
     if (this.userDied || this.victory) {
       return;
     }
