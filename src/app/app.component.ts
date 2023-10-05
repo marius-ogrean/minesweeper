@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { Row } from './row';
 import { Cell } from './cell';
 
@@ -15,8 +15,10 @@ export class AppComponent {
   arrayForRandomNumbers = new Uint32Array(1);
   userDied: boolean = false;
   victory: boolean = false;
+  intervalHandle: any;
+  timeSpent: number = 0;
 
-  constructor() {
+  constructor(private ref: ChangeDetectorRef) {
     this.initializeGame();
   }
 
@@ -25,6 +27,7 @@ export class AppComponent {
     this.userDied = false;
     this.victory = false;
     this.rows = [];
+    this.timeSpent = 0;
 
     for (let i = 0; i < this.rowCount; i++) {
       this.rows.push(new Row(i, this.columnCount));
@@ -32,6 +35,31 @@ export class AppComponent {
 
     this.addBombs();
     this.calculateNumbers();
+    this.intervalHandle = setInterval(() => {
+      this.timeSpent++;
+      this.ref.markForCheck();
+    }, 1000);
+  }
+
+  formatTimeSpent() {
+    const minutes = Math.floor(this.timeSpent / 60);
+    const seconds = this.timeSpent % 60;
+
+    let formattedMinutes;
+    if (Math.floor(minutes / 10) === 0) {
+      formattedMinutes = '0' + minutes;
+    } else {
+      formattedMinutes = minutes.toString();
+    }
+
+    let formattedSeconds;
+    if (Math.floor(seconds / 10) === 0) {
+      formattedSeconds = '0' + seconds;
+    } else {
+      formattedSeconds = seconds.toString();
+    }
+
+    return formattedMinutes + ':' + formattedSeconds;
   }
 
   addBombs() {
@@ -138,6 +166,7 @@ export class AppComponent {
     if (cell.hasBomb) {
       cell.revealed = true;
       this.userDied = true;
+      clearInterval(this.intervalHandle);
     } else {
       if (cell.adjacentBombs === 0 && !cell.revealed) {
         cell.addedForReveal = true;
