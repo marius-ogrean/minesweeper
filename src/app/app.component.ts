@@ -180,7 +180,9 @@ export class AppComponent {
         this.revealEmptyCells(cell);
       } else if (!cell.revealed) {
         cell.revealed = true;
-        this.updateRevealCount();
+        setTimeout(() => {
+          this.updateRevealCount();
+        });
       }
     }
   }
@@ -188,6 +190,7 @@ export class AppComponent {
   updateRevealCount() {
     if (this.rowCount * this.columnCount - this.bombsNumber === Cell.revealCount) {
       this.victory = true;
+      clearInterval(this.intervalHandle);
       alert('Victory');
     }
   }
