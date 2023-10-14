@@ -2,7 +2,8 @@
     [ngClass]="{ 'not-revealed': !cell.revealed,
                  'revealed': cell.revealed && !cell.hasBomb,
                  'bomb': cell.revealed && cell.hasBomb }">
-  <span *ngIf="cell.hasBomb && (cell.revealed || userDied)">x</span>
+  <i class="fa fa-bomb"
+     *ngIf="cell.hasBomb && (cell.revealed || userDied)"></i>
   <span *ngIf="cell.adjacentBombs === 1 && cell.revealed" class="one number">1</span>
   <span *ngIf="cell.adjacentBombs === 2 && cell.revealed" class="two number">2</span>
   <span *ngIf="cell.adjacentBombs === 3 && cell.revealed" class="three number">3</span>
