@@ -1,4 +1,4 @@
-<div class="cell d-flex justify-content-center align-items-center" (click)="clicked()"
+<div class="cell d-flex justify-content-center align-items-center"
     [ngClass]="{ 'not-revealed': !cell.revealed,
                  'revealed': cell.revealed && !cell.hasBomb,
                  'bomb': cell.revealed && cell.hasBomb }">

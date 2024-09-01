@@ -5,9 +5,9 @@
   <div class="timer">
     {{ formatTimeSpent() }}
   </div>
-  <div class="frame">
+  <div class="frame" #frame (click)="clickHappened($event)">
     <div class="d-flex flex-row" *ngFor="let row of rows">
-      <app-cell *ngFor="let cell of row.cells" [cell]="cell" (cellClicked)="cellClicked($event)"
+      <app-cell *ngFor="let cell of row.cells" [cell]="cell"
                 [userDied]="userDied"></app-cell>
     </div>
   </div>

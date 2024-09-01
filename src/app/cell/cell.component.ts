@@ -9,9 +9,4 @@ import { Cell } from '../cell';
 export class CellComponent {
   @Input() cell: Cell;
   @Input() userDied: boolean;
-  @Output() cellClicked = new EventEmitter<Cell>();
-
-  clicked() {
-    this.cellClicked.emit(this.cell);
-  }
 }

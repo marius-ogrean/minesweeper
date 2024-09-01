@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { Row } from './row';
 import { Cell } from './cell';
 
@@ -18,6 +18,8 @@ export class AppComponent {
   intervalHandle: any;
   timeSpent: number = 0;
   firstClick: boolean = false;
+
+  @ViewChild('frame') frame: ElementRef<HTMLInputElement>;
 
   constructor(private ref: ChangeDetectorRef) {
     this.initializeGame();
@@ -155,6 +157,20 @@ export class AppComponent {
   restart() {
     clearInterval(this.intervalHandle);
     this.initializeGame();
+  }
+
+  clickHappened(event: any) {
+    if (event.clientX < this.frame.nativeElement.offsetLeft ||
+        event.clientX > this.frame.nativeElement.offsetLeft + this.frame.nativeElement.offsetWidth ||
+        event.clientY < this.frame.nativeElement.offsetTop ||
+        event.clientY > this.frame.nativeElement.offsetTop + this.frame.nativeElement.offsetHeight) {
+      return;
+    }
+
+    let col = Math.floor((event.clientX - this.frame.nativeElement.offsetLeft) / 30);
+    let row = Math.floor((event.clientY - this.frame.nativeElement.offsetTop) / 30);
+
+    this.cellClicked(this.rows[row].cells[col]);
   }
 
   cellClicked(cell: Cell) {
