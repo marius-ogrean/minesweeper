@@ -29,12 +29,21 @@ export class AppComponent {
     Cell.revealCount = 0;
     this.userDied = false;
     this.victory = false;
-    this.rows = [];
     this.timeSpent = 0;
     this.firstClick = false;
 
-    for (let i = 0; i < this.rowCount; i++) {
-      this.rows.push(new Row(i, this.columnCount));
+    if (!this.rows) {
+      this.rows = [];
+
+      for (let i = 0; i < this.rowCount; i++) {
+        this.rows.push(new Row(i, this.columnCount));
+      }
+    } else {
+      for (let i = 0; i < this.rowCount; i++) {
+        this.rows[i].resetCells();
+      }
+
+      Cell.revealCount = 0;
     }
 
     this.addBombs();

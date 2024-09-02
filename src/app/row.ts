@@ -13,4 +13,10 @@ export class Row {
       this.cells.push(new Cell(rowIndex, i));
     }
   }
+
+  resetCells() {
+    for (let i = 0; i < this.cellCount; i++) {
+      this.cells[i].resetCell();
+    }
+  }
 }

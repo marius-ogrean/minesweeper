@@ -22,4 +22,11 @@ export class Cell {
     }
     this._revealed = revealed;
   }
+
+  public resetCell() {
+    this.hasBomb = false;
+    this.adjacentBombs = 0;
+    this._revealed = false;
+    this.addedForReveal = false;
+  }
 }
