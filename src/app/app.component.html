@@ -14,4 +14,8 @@
   <div class="restart d-flex justify-content-center align-items-center" (click)="restart()">
     <span>Restart</span>
   </div>
+  <div class="automatic-reveal-container">
+    <input type="checkbox" id="automaticRevealAtStartup" [(ngModel)]="automaticRevealAtStartup" />
+    <label for="automaticRevealAtStartup" class="automatic-reveal-at-startup">Reveal empty space at startup</label>
+  </div>
 </div>

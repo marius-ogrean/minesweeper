@@ -18,6 +18,7 @@ export class AppComponent {
   intervalHandle: any;
   timeSpent: number = 0;
   firstClick: boolean = false;
+  automaticRevealAtStartup: boolean = true;
 
   @ViewChild('frame') frame: ElementRef<HTMLInputElement>;
 
@@ -47,7 +48,15 @@ export class AppComponent {
     }
 
     this.addBombs();
-    this.calculateNumbers();
+    const emptyCells = this.calculateNumbers();
+
+    if (this.automaticRevealAtStartup) {
+      const emptyCellIndex = this.getRandomNumberSmallerThan(emptyCells.length);
+
+      const selectedEmptyCell = emptyCells[emptyCellIndex];
+
+      this.cellClicked(this.getCell(selectedEmptyCell.row, selectedEmptyCell.col));
+    }
   }
 
   formatTimeSpent() {
@@ -87,13 +96,21 @@ export class AppComponent {
   }
 
   calculateNumbers() {
+    const emptyCells = [];
+
     for (let i = 0; i < this.rowCount; i++) {
       for (let j = 0; j < this.columnCount; j++) {
         const bombCount = this.getAdjacentBombs(i, j);
 
         this.getCell(i, j).adjacentBombs = bombCount;
+
+        if (!bombCount && !this.getCell(i, j).hasBomb) {
+          emptyCells.push({ row: i, col: j });
+        }
       }
     }
+
+    return emptyCells;
   }
 
   getCell(row: number, column: number): Cell {
