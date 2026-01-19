@@ -186,15 +186,15 @@ export class AppComponent {
   }
 
   clickHappened(event: any) {
-    if (event.clientX < this.frame.nativeElement.offsetLeft ||
+    if (event.clientX < this.frame.nativeElement.offsetLeft - window.scrollX ||
         event.clientX > this.frame.nativeElement.offsetLeft + this.frame.nativeElement.offsetWidth ||
-        event.clientY < this.frame.nativeElement.offsetTop ||
+        event.clientY < this.frame.nativeElement.offsetTop - window.scrollY ||
         event.clientY > this.frame.nativeElement.offsetTop + this.frame.nativeElement.offsetHeight) {
       return;
     }
 
-    let col = Math.floor((event.clientX - this.frame.nativeElement.offsetLeft) / 30);
-    let row = Math.floor((event.clientY - this.frame.nativeElement.offsetTop) / 30);
+    let col = Math.floor((event.clientX - this.frame.nativeElement.offsetLeft + window.scrollX) / 30);
+    let row = Math.floor((event.clientY - this.frame.nativeElement.offsetTop + window.scrollY) / 30);
 
     this.cellClicked(this.rows[row].cells[col]);
   }
