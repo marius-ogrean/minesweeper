@@ -1,8 +1,10 @@
+import { signal } from '@angular/core';
+
 export class Cell {
   public static revealCount: number;
   public hasBomb: boolean = false;
   public adjacentBombs: number = 0;
-  private _revealed: boolean = false;
+  private _revealed = signal(false);
   public rowIndex: number;
   public colIndex: number;
   public addedForReveal: boolean = false;
@@ -13,20 +15,20 @@ export class Cell {
   }
 
   public get revealed() {
-    return this._revealed;
+    return this._revealed();
   }
 
   public set revealed(revealed: boolean) {
     if (!this._revealed) {
       Cell.revealCount++;
     }
-    this._revealed = revealed;
+    this._revealed.set(revealed);
   }
 
   public resetCell() {
     this.hasBomb = false;
     this.adjacentBombs = 0;
-    this._revealed = false;
+    this._revealed.set(false);
     this.addedForReveal = false;
   }
 }
