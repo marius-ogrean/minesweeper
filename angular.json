@@ -75,14 +75,7 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "polyfills": [
-              "@angular/localize/init"
-            ],
-            "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
-            "scripts": []
+            "tsConfig": "tsconfig.spec.json"
           }
         }
       }
