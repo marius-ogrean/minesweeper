@@ -3,13 +3,12 @@ import { Row } from './row';
 import { Cell } from './cell';
 import { FormsModule } from '@angular/forms';
 import { CellComponent } from './cell/cell.component';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   standalone: true,
-  imports: [FormsModule, CellComponent, CommonModule],
+  imports: [FormsModule, CellComponent],
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {

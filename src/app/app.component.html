@@ -6,10 +6,13 @@
     {{ formatTimeSpent() }}
   </div>
   <div class="frame" #frame (click)="clickHappened($event)">
-    <div class="d-flex flex-row" *ngFor="let row of rows">
-      <app-cell *ngFor="let cell of row.cells" [cell]="cell"
-                [userDied]="userDied"></app-cell>
-    </div>
+    @for (row of rows; track $index) {
+      <div class="d-flex flex-row">
+        @for (cell of row.cells; track $index) {
+          <app-cell [cell]="cell" [userDied]="userDied"></app-cell>
+        }
+      </div>
+    }
   </div>
   <div class="restart d-flex justify-content-center align-items-center" (click)="restart()">
     <span>Restart</span>
