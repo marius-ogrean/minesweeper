@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, ChangeDetectorRef, ViewChild, ElementRef, signal } from '@angular/core';
 import { Row } from './row';
 import { Cell } from './cell';
 import { FormsModule } from '@angular/forms';
@@ -17,7 +17,7 @@ export class AppComponent {
   readonly columnCount = 30;
   readonly bombsNumber = 99;
   arrayForRandomNumbers = new Uint32Array(1);
-  userDied: boolean = false;
+  userDied = signal(false);
   victory: boolean = false;
   intervalHandle: any;
   timeSpent: number = 0;
@@ -32,7 +32,7 @@ export class AppComponent {
 
   initializeGame() {
     Cell.revealCount = 0;
-    this.userDied = false;
+    this.userDied.set(false);
     this.victory = false;
     this.timeSpent = 0;
     this.firstClick = false;
@@ -212,13 +212,13 @@ export class AppComponent {
       }, 1000);
     }
 
-    if (this.userDied || this.victory) {
+    if (this.userDied() || this.victory) {
       return;
     }
 
     if (cell.hasBomb) {
       cell.revealed = true;
-      this.userDied = true;
+      this.userDied.set(true);
       clearInterval(this.intervalHandle);
     } else {
       if (cell.adjacentBombs === 0 && !cell.revealed) {

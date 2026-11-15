@@ -2,7 +2,7 @@
     [class]="{ 'not-revealed': !cell.revealed,
                  'revealed': cell.revealed && !cell.hasBomb,
                  'bomb': cell.revealed && cell.hasBomb }">
-  @if (cell.hasBomb && (cell.revealed || userDied)) {
+  @if (cell.hasBomb && (cell.revealed || userDied())) {
     <img src="assets/bomb.png">
   }
 
