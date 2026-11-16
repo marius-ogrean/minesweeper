@@ -4,19 +4,35 @@
                  'bomb': cell()?.revealed && cell()?.hasBomb }">
   <img src="assets/bomb.png" [hidden]="!(cell()?.hasBomb && (cell()?.revealed || userDied()))">
 
-  <span class="one number" [hidden]="!(cell()?.adjacentBombs === 1 && cell()?.revealed)">1</span>
+  @if (cell()?.adjacentBombs === 1 && cell()?.revealed) {
+    <span class="one number">1</span>
+  }
 
-  <span class="two number" [hidden]="!(cell()?.adjacentBombs === 2 && cell()?.revealed)">2</span>
+  @if (cell()?.adjacentBombs === 2 && cell()?.revealed) {
+    <span class="two number">2</span>
+  }
 
-  <span class="three number" [hidden]="!(cell()?.adjacentBombs === 3 && cell()?.revealed)">3</span>
+  @if (cell()?.adjacentBombs === 3 && cell()?.revealed) {
+    <span class="three number">3</span>
+  }
 
-  <span class="four number" [hidden]="!(cell()?.adjacentBombs === 4 && cell()?.revealed)">4</span>
+  @if (cell()?.adjacentBombs === 4 && cell()?.revealed) {
+    <span class="four number">4</span>
+  }
 
-  <span class="five number" [hidden]="!(cell()?.adjacentBombs === 5 && cell()?.revealed)">5</span>
+  @if (cell()?.adjacentBombs === 5 && cell()?.revealed) {
+    <span class="five number">5</span>
+  }
 
-  <span class="six number" [hidden]="!(cell()?.adjacentBombs === 6 && cell()?.revealed)">6</span>
+  @if (cell()?.adjacentBombs === 6 && cell()?.revealed) {
+    <span class="six number">6</span>
+  }
 
-  <span class="seven number" [hidden]="!(cell()?.adjacentBombs === 7 && cell()?.revealed)">7</span>
+  @if (cell()?.adjacentBombs === 7 && cell()?.revealed) {
+    <span class="seven number">7</span>
+  }
 
-  <span class="eight number" [hidden]="!(cell()?.adjacentBombs === 8 && cell()?.revealed)">8</span>
+  @if (cell()?.adjacentBombs === 8 && cell()?.revealed) {
+    <span class="eight number">8</span>
+  }
 </div>
