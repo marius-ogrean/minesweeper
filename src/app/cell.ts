@@ -19,7 +19,7 @@ export class Cell {
   }
 
   public set revealed(revealed: boolean) {
-    if (!this._revealed) {
+    if (!this._revealed()) {
       Cell.revealCount++;
     }
     this._revealed.set(revealed);
