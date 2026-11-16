@@ -1,40 +1,40 @@
 <div class="cell d-flex justify-content-center align-items-center"
-    [class]="{ 'not-revealed': !cell.revealed,
-                 'revealed': cell.revealed && !cell.hasBomb,
-                 'bomb': cell.revealed && cell.hasBomb }">
-  @if (cell.hasBomb && (cell.revealed || userDied())) {
+    [class]="{ 'not-revealed': !cell()?.revealed,
+                 'revealed': cell()?.revealed && !cell()?.hasBomb,
+                 'bomb': cell()?.revealed && cell()?.hasBomb }">
+  @if (cell()?.hasBomb && (cell()?.revealed || userDied())) {
     <img src="assets/bomb.png">
   }
 
-  @if (cell.adjacentBombs === 1 && cell.revealed) {
+  @if (cell()?.adjacentBombs === 1 && cell()?.revealed) {
     <span class="one number">1</span>
   }
 
-  @if (cell.adjacentBombs === 2 && cell.revealed) {
+  @if (cell()?.adjacentBombs === 2 && cell()?.revealed) {
     <span class="two number">2</span>
   }
 
-  @if (cell.adjacentBombs === 3 && cell.revealed) {
+  @if (cell()?.adjacentBombs === 3 && cell()?.revealed) {
     <span class="three number">3</span>
   }
 
-  @if (cell.adjacentBombs === 4 && cell.revealed) {
+  @if (cell()?.adjacentBombs === 4 && cell()?.revealed) {
     <span class="four number">4</span>
   }
 
-  @if (cell.adjacentBombs === 5 && cell.revealed) {
+  @if (cell()?.adjacentBombs === 5 && cell()?.revealed) {
     <span class="five number">5</span>
   }
 
-  @if (cell.adjacentBombs === 6 && cell.revealed) {
+  @if (cell()?.adjacentBombs === 6 && cell()?.revealed) {
     <span class="six number">6</span>
   }
 
-  @if (cell.adjacentBombs === 7 && cell.revealed) {
+  @if (cell()?.adjacentBombs === 7 && cell()?.revealed) {
     <span class="seven number">7</span>
   }
 
-  @if (cell.adjacentBombs === 8 && cell.revealed) {
+  @if (cell()?.adjacentBombs === 8 && cell()?.revealed) {
     <span class="eight number">8</span>
   }
 </div>

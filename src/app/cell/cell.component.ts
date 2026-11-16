@@ -1,4 +1,4 @@
-import { Component, input, Input, Output, EventEmitter } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { Cell } from '../cell';
 import { FormsModule } from '@angular/forms';
 
@@ -10,6 +10,6 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./cell.component.scss']
 })
 export class CellComponent {
-  @Input() cell: Cell;
+  cell = input<Cell>();
   userDied = input<boolean>();
 }
